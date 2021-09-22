@@ -1,46 +1,32 @@
 import { Router } from "express";
 
+import { UserController } from "../controllers/UserController";
 import { UsersRepository } from "../repositories/implementations/UsersRepository";
+import { UserService } from "../services/UserService";
 
 const usersRoutes = Router();
 const usersRepository = new UsersRepository();
+const createUserService = new UserService(usersRepository);
+const createUserController = new UserController(createUserService);
 
 usersRoutes.get("/", async (req, res) => {
-  const docs = await usersRepository.list();
-  return res.json(docs);
+  return createUserController.list(req, res);
 });
 
 usersRoutes.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  const docs = await usersRepository.findById(id);
-  return res.json(docs);
+  return createUserController.listOne(req, res);
 });
 
 usersRoutes.post("/", async (req, res) => {
-  const { name, companyId } = req.body;
-  try {
-    const user = await usersRepository.create({ name, companyId });
-    return res.json(user);
-  } catch (err) {
-    return res.status(400).json({ err });
-  }
+  return createUserController.create(req, res);
 });
 
 usersRoutes.put("/:id", async (req, res) => {
-  const { id } = req.params;
-  const { name, companyId } = req.body;
-  try {
-    await usersRepository.update({ name, companyId, id });
-    return res.status(204).send();
-  } catch (err) {
-    return res.status(400).json({ err });
-  }
+  return createUserController.update(req, res);
 });
 
 usersRoutes.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-  await usersRepository.delete(id);
-  return res.status(204).send();
+  return createUserController.delete(req, res);
 });
 
 export { usersRoutes };
