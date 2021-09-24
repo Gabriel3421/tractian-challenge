@@ -6,15 +6,14 @@ import { model, Schema, Model, Document } from "mongoose";
  *  Each asset is part of a unit;
  */
 
-interface IAssets extends Document {
+interface IAsset extends Document {
   name: string;
   description: string;
   unitId: string;
   model: string;
-  email: string;
   owner: string;
   status: string;
-  healthLevel: string;
+  healthLevel: number;
 }
 
 const assetSchema: Schema = new Schema(
@@ -25,11 +24,11 @@ const assetSchema: Schema = new Schema(
     model: { type: String, required: true },
     owner: { type: String, required: true },
     status: { type: String, required: true },
-    healthLevel: { type: String, required: true },
+    healthLevel: { type: Number, required: true },
   },
   { collection: "assets" }
 );
 
-const AssetModel: Model<IAssets> = model("assets", assetSchema);
+const AssetModel: Model<IAsset> = model("assets", assetSchema);
 
-export { assetSchema, AssetModel, IAssets };
+export { assetSchema, AssetModel, IAsset };

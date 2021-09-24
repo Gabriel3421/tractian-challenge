@@ -1,32 +1,27 @@
 import { Router } from "express";
 
-import { UserController } from "../controllers/UserController";
-import { UsersRepository } from "../repositories/implementations/UsersRepository";
-import { UserService } from "../services/UserService";
+import { userController } from "../controllers";
 
 const usersRoutes = Router();
-const usersRepository = new UsersRepository();
-const createUserService = new UserService(usersRepository);
-const createUserController = new UserController(createUserService);
 
 usersRoutes.get("/", async (req, res) => {
-  return createUserController.list(req, res);
+  return userController.list(req, res);
 });
 
 usersRoutes.get("/:id", async (req, res) => {
-  return createUserController.listOne(req, res);
+  return userController.listOne(req, res);
 });
 
 usersRoutes.post("/", async (req, res) => {
-  return createUserController.create(req, res);
+  return userController.create(req, res);
 });
 
 usersRoutes.put("/:id", async (req, res) => {
-  return createUserController.update(req, res);
+  return userController.update(req, res);
 });
 
 usersRoutes.delete("/:id", async (req, res) => {
-  return createUserController.delete(req, res);
+  return userController.delete(req, res);
 });
 
 export { usersRoutes };

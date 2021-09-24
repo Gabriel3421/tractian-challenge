@@ -1,20 +1,20 @@
-import { IUser } from "../models/UsersModel";
+import { IUnit } from "../models/UnitModel";
 import { ICompanysRepository } from "../repositories/ICompanyRepository";
 import {
-  ICreateUserDTO,
-  IUsersRepository,
-  IUpdateUserDTO,
-} from "../repositories/IUsersRepository";
+  ICreateUnitDTO,
+  IUnitsRepository,
+  IUpdateUnitDTO,
+} from "../repositories/IUnitRepository";
 
-class UserService {
+class UnitService {
   constructor(
-    private usersRepository: IUsersRepository,
+    private usersRepository: IUnitsRepository,
     private companyRepository: ICompanysRepository
   ) {}
-  async create({ companyId, name }: ICreateUserDTO): Promise<void> {
+  async create({ companyId, name }: ICreateUnitDTO): Promise<void> {
     const userAlreadyExists = await this.usersRepository.findByName(name);
     if (userAlreadyExists && userAlreadyExists.companyId === companyId) {
-      throw new Error("User Already Exists!");
+      throw new Error("Unit Already Exists!");
     }
     const companyIdExists = await this.companyRepository.findById(companyId);
     if (!companyIdExists) {
@@ -22,27 +22,27 @@ class UserService {
     }
     this.usersRepository.create({ name, companyId });
   }
-  list(): Promise<IUser[]> {
+  list(): Promise<IUnit[]> {
     return this.usersRepository.list();
   }
-  listOne(id: string): Promise<IUser | null> {
+  listOne(id: string): Promise<IUnit | null> {
     return this.usersRepository.findById(id);
   }
   async delete(id: string): Promise<void> {
     const userAlreadyExists = await this.usersRepository.findById(id);
     if (!userAlreadyExists) {
-      throw new Error("User dont Exists!");
+      throw new Error("Unit dont Exists!");
     }
     await this.usersRepository.delete(id);
   }
-  async update({ name, companyId, id }: IUpdateUserDTO): Promise<void> {
+  async update({ name, companyId, id }: IUpdateUnitDTO): Promise<void> {
     const userIdAlreadyExists = await this.usersRepository.findById(id);
     if (!userIdAlreadyExists) {
-      throw new Error("User dont Exists!");
+      throw new Error("Unit dont Exists!");
     }
     const userAlreadyExists = await this.usersRepository.findByName(name);
     if (userAlreadyExists && userAlreadyExists.companyId === companyId) {
-      throw new Error("User Already Exists!");
+      throw new Error("Unit Already Exists!");
     }
     const companyIdExists = await this.companyRepository.findById(companyId);
     if (!companyIdExists) {
@@ -52,4 +52,4 @@ class UserService {
   }
 }
 
-export { UserService };
+export { UnitService };

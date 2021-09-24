@@ -1,14 +1,14 @@
 import { Response, Request } from "express";
 
-import { UserService } from "../services/UserService";
+import { UnitService } from "../services/UnitService";
 
-class UserController {
+class UnitController {
   // eslint-disable-next-line prettier/prettier
-  constructor(private userService: UserService) { }
+  constructor(private unitService: UnitService) { }
   async create(req: Request, res: Response): Promise<Response> {
     try {
       const { name, companyId } = req.body;
-      await this.userService.create({ name, companyId });
+      await this.unitService.create({ name, companyId });
       return res.status(201).send();
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
@@ -16,7 +16,7 @@ class UserController {
   }
   async list(req: Request, res: Response): Promise<Response> {
     try {
-      const users = await this.userService.list();
+      const users = await this.unitService.list();
       return res.json(users);
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
@@ -25,7 +25,7 @@ class UserController {
   async listOne(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
-      const user = await this.userService.listOne(id);
+      const user = await this.unitService.listOne(id);
       return res.json(user);
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
@@ -36,7 +36,7 @@ class UserController {
     const { id } = req.params;
     const { name, companyId } = req.body;
     try {
-      await this.userService.update({ name, companyId, id });
+      await this.unitService.update({ name, companyId, id });
       return res.status(204).send();
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
@@ -45,7 +45,7 @@ class UserController {
   async delete(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
-      await this.userService.delete(id);
+      await this.unitService.delete(id);
       return res.status(204).send();
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
@@ -53,4 +53,4 @@ class UserController {
   }
 }
 
-export { UserController };
+export { UnitController };
