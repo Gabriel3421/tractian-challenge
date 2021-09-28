@@ -1,13 +1,16 @@
 import express from "express";
 
 import "./config/mongoConfig";
+import logs from "./middleware/logs";
 import { router } from "./routes";
 
 const app = express();
 app.use(express.json());
-
+app.use(logs);
 app.use(router);
 
-app.listen(3333, () => {
-  console.log("server running");
+const port = 3333;
+
+app.listen(port, () => {
+  console.log(`server running on port: ${port}`);
 });

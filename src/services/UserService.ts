@@ -28,6 +28,9 @@ class UserService {
   listOne(id: string): Promise<IUser | null> {
     return this.usersRepository.findById(id);
   }
+  listOneByName(name: string): Promise<IUser | null> {
+    return this.usersRepository.findByName(name);
+  }
   async delete(id: string): Promise<void> {
     const userAlreadyExists = await this.usersRepository.findById(id);
     if (!userAlreadyExists) {

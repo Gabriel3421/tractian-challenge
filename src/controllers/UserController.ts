@@ -31,6 +31,15 @@ class UserController {
       return res.status(400).json({ error: error.message });
     }
   }
+  async listOneByName(req: Request, res: Response): Promise<Response> {
+    try {
+      const { name } = req.params;
+      const user = await this.userService.listOneByName(name);
+      return res.json(user);
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;

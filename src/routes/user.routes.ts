@@ -11,6 +11,9 @@ usersRoutes.get("/", async (req, res) => {
 usersRoutes.get("/:id", async (req, res) => {
   return userController.listOne(req, res);
 });
+usersRoutes.get("/name/:name", async (req, res) => {
+  return userController.listOneByName(req, res);
+});
 
 usersRoutes.post("/", async (req, res) => {
   return userController.create(req, res);
