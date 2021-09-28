@@ -13,6 +13,10 @@ interface IUpdateUserDTO {
 interface IUsersRepository {
   findById(id: string): Promise<IUser | null>;
   findByName(name: string): Promise<IUser | null>;
+  findByNameAndCompanyId(
+    name: string,
+    companyId: string
+  ): Promise<IUser | null>;
   list(): Promise<IUser[]>;
   create({ name, companyId }: ICreateUserDTO): Promise<IUser>;
   update({ name, companyId, id }: IUpdateUserDTO): void;

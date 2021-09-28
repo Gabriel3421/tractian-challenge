@@ -28,6 +28,16 @@ class UsersRepository implements IUsersRepository {
     }
     return null;
   }
+  async findByNameAndCompanyId(
+    name: string,
+    companyId: string
+  ): Promise<IUser | null> {
+    const user = await UsersModel.findOne({ name, companyId }).exec();
+    if (user) {
+      return user;
+    }
+    return null;
+  }
   async delete(id: string): Promise<void> {
     await UsersModel.deleteOne({ _id: id }).lean().exec();
   }

@@ -6,7 +6,6 @@ import { unitRoutes } from "./unit.routes";
 import { usersRoutes } from "./user.routes";
 
 const router = Router();
-
 router.use("/users", usersRoutes);
 router.use("/unit", unitRoutes);
 router.use("/company", companyRoutes);

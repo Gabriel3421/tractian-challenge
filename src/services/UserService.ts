@@ -6,6 +6,13 @@ import {
   IUpdateUserDTO,
 } from "../repositories/IUsersRepository";
 
+interface ILoginReturn {
+  _id: string;
+  name: string;
+  companyId: string;
+  companyName: string;
+}
+
 class UserService {
   constructor(
     private usersRepository: IUsersRepository,
@@ -28,8 +35,22 @@ class UserService {
   listOne(id: string): Promise<IUser | null> {
     return this.usersRepository.findById(id);
   }
-  listOneByName(name: string): Promise<IUser | null> {
-    return this.usersRepository.findByName(name);
+  async login(name: string, companyId: string): Promise<ILoginReturn | null> {
+    const user = await this.usersRepository.findByNameAndCompanyId(
+      name,
+      companyId
+    );
+    if (!user) {
+      return null;
+    }
+    const userCompany = await this.companyRepository.findById(user.companyId);
+    return {
+      // eslint-disable-next-line no-underscore-dangle
+      _id: user._id,
+      companyId: user.companyId,
+      name: user.name,
+      companyName: userCompany!.name,
+    };
   }
   async delete(id: string): Promise<void> {
     const userAlreadyExists = await this.usersRepository.findById(id);

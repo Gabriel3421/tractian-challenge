@@ -31,10 +31,17 @@ class UserController {
       return res.status(400).json({ error: error.message });
     }
   }
-  async listOneByName(req: Request, res: Response): Promise<Response> {
+  async login(req: Request, res: Response): Promise<Response> {
     try {
-      const { name } = req.params;
-      const user = await this.userService.listOneByName(name);
+      const { name, companyId } = req.query;
+      if (!name || !companyId) {
+        throw new Error("Invalid parameters");
+      }
+
+      const user = await this.userService.login(
+        String(name),
+        String(companyId)
+      );
       return res.json(user);
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
